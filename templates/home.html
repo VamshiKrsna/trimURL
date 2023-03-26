@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TrimURL</title>
+</head>
+<style>
+    body {
+        background: rgb(2,0,36);
+        background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 26%, rgba(0,212,255,1) 100%);
+        font-family: 'Lato', sans-serif;
+    }
+    h1 {
+        color: white;
+        margin: auto;
+        width: 50%;
+        padding: 10px; 
+        font-size: xx-large;       
+    }
+    label {
+        color : white;
+        font-size: large;
+    }
+    h2 {
+        color : white;
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+    }
+    form {
+        margin: auto;
+        width: 50%;
+        padding: 10px;
+    }
+    input {
+        height: 30px;
+        width: 300px;
+        border-radius:15px;
+        border: none;
+    }
+    .buttonsub {
+        height : 35px;
+        width : 70px;
+        border-radius: 15px;
+        border : none;
+        cursor: pointer;
+        transition: 0.3s;
+        font-family: 'Lato', sans-serif;
+        font-weight: bold;
+    }
+    button:hover {
+        background-color: #75e66b;
+    }
+    #logo {
+        position: fixed;
+        top : 0;
+        left : 0;
+    }
+    .ctc {
+        margin-right: 950px;
+        float : right;
+        height: 30px;
+        width : 70px;
+        border-radius: 25px;
+        border: none;
+        font-family: 'Lato', sans-serif;
+    }
+    #header {
+        display: block;
+        text-align: center;
+    }
+</style>
+
+<body>
+    
+    <h1>TrimURL</h1>
+
+    <form method="POST" action="/">
+        <label class = 'label' for="long_url">Enter URL  :  </label>
+        <input class = 'box' type="url" id="long_url" name="long_url" required>
+        <button class = "buttonsub" type="submit">Shorten</button>
+    </form>
+    {%if short_url%}
+    <h1>Shortened URL</h1>
+    <a href="http://127.0.0.1:5000/{{short_url}}"><h2>{{short_url}}</h2></a>
+    {%endif%}
+    <a style = "color:white ; position:absolute; top:0; right:0; margin-right: 900px; padding-top: 20px;" href="{{ url_for('history') }}" class="btn btn-primary">History</a>
+    
+    <button class = 'ctc' onclick="copyLink()">Copy Link</button>
+    <div id = "message"></div>
+    <script>
+        function copyLink() {
+            var url = "{{ url }}";
+            var shortUrl = "{{ short_url }}";
+            var fullUrl = `http://{{ request.host }}/${shortUrl}/${url}`;
+            const input = document.createElement('textarea');
+            input.value = fullUrl.rstrip("/");
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
+            alert("Link Copied");
+        }
+    </script>
+</body>
+
+</html>
